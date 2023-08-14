@@ -3,7 +3,15 @@ package com.example.mqttkotlinsample
 import android.content.Context
 import android.util.Log
 import org.eclipse.paho.android.service.MqttAndroidClient
-import org.eclipse.paho.client.mqttv3.*
+import org.eclipse.paho.client.mqttv3.IMqttActionListener
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
+import org.eclipse.paho.client.mqttv3.IMqttToken
+import org.eclipse.paho.client.mqttv3.MqttCallback
+import org.eclipse.paho.client.mqttv3.MqttClient
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions
+import org.eclipse.paho.client.mqttv3.MqttException
+import org.eclipse.paho.client.mqttv3.MqttMessage
+
 
 class MQTTClient(context: Context?,
                  serverURI: String,
@@ -76,9 +84,13 @@ class MQTTClient(context: Context?,
         val options = MqttConnectOptions()
         options.userName = username
         options.password = password.toCharArray()
+        options.isCleanSession = false
+//        options.isAutomaticReconnect = true
+//        options.mqttVersion = MqttConnectOptions.MQTT_VERSION_3_1_1
 
         try {
-            mqttClient.connect(options, null, cbConnect)
+            val connect = mqttClient.connect(options, null, cbConnect)
+
         } catch (e: MqttException) {
             e.printStackTrace()
         }

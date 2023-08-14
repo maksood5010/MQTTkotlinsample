@@ -38,6 +38,7 @@ class ClientFragment : Fragment() {
                     })
                 } else {
                     Log.d(this.javaClass.name, "Impossible to disconnect, no server connected")
+                    parentFragmentManager.popBackStack()
                 }
             }
         })
@@ -57,6 +58,9 @@ class ClientFragment : Fragment() {
         // Get arguments passed by ConnectFragment
         val serverURI   = arguments?.getString(MQTT_SERVER_URI_KEY)
         val clientId    = arguments?.getString(MQTT_CLIENT_ID_KEY)
+//        val clientId    = MqttClient.generateClientId()
+        Log.d("TAG", "onViewCreated: clientId : $clientId")
+        Toast.makeText(requireContext(), "$clientId", Toast.LENGTH_SHORT).show()
         val username    = arguments?.getString(MQTT_USERNAME_KEY)
         val pwd         = arguments?.getString(MQTT_PWD_KEY)
 
@@ -190,6 +194,11 @@ class ClientFragment : Fragment() {
                         })
             } else {
                 Log.d(this.javaClass.name, "Impossible to subscribe, no server connected")
+                Toast.makeText(
+                    requireContext(),
+                    "Impossible to subscribe, no server connected",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
